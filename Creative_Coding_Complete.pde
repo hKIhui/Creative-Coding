@@ -1,5 +1,5 @@
-// Настройки
-int totalWeeks = 12; // 3 месяца
+
+int totalWeeks = 12; 
 String[] activities = {"Instagram", "Moodle", "YouTube", "TikTok", "WhatsApp", "Movie"};
 float[][] weeklyData = new float[totalWeeks][activities.length];
 float[] monthlyTotals = new float[3];
@@ -7,32 +7,32 @@ float[] totalPerActivity = new float[activities.length];
 String[] months = {"September", "October", "November"};
 int[] weeksInMonths = {4, 4, 4};
 
-int animationSpeed = 5; // Скорость анимации (FPS)
+int animationSpeed = 5; 
 
-// Инициализация
+
 void setup() {
-  size(1200, 700);
+  size(1200, 800);
   frameRate(animationSpeed);
 
-  // Загрузка реальных данных
+
   float[][] realWeeklyData = {
-  // Сентябрь (4 недели)
-  {12, 15, 8, 10, 7, 16}, // Неделя 1
-  {10, 13, 9, 8, 6, 12},  // Неделя 2
-  {14, 14, 10, 9, 8, 14}, // Неделя 3
-  {13, 16, 12, 11, 9, 18},// Неделя 4
+  // September
+  {24, 18, 10, 5, 8, 23}, // Week 1
+  {24, 19, 10, 4.5, 7.5, 24},  // Week 2
+  {18, 17, 10, 4, 8, 20}, // Week 3
+  {20, 19, 10, 5.5, 9, 20},// Week 4
 
-  // Октябрь (4 недели)
-  {10, 12, 8, 6, 5, 14},  // Неделя 5
-  {12, 14, 11, 7, 6, 13}, // Неделя 6
-  {11, 13, 12, 8, 7, 16}, // Неделя 7
-  {14, 15, 13, 9, 9, 18}, // Неделя 8
+  // October
+  {18, 17, 11, 5.5, 9, 25},  // Week 5
+  {21, 20, 9, 6, 12, 25}, // Week 6
+  {17, 19, 8, 4.5, 11, 28}, // Week 7
+  {21, 15, 9, 5, 10, 23}, // Week 8
 
-  // Ноябрь (4 недели)
-  {12, 14, 9, 7, 6, 14},  // Неделя 9
-  {13, 16, 10, 8, 7, 15}, // Неделя 10
-  {11, 14, 12, 9, 8, 13}, // Неделя 11
-  {15, 17, 13, 10, 9, 18} // Неделя 12
+  // November
+  {20, 17, 11, 5, 10, 22},  // Week 9
+  {22, 16, 8, 5, 11, 24}, // Week 10
+  {23, 20, 10, 5.5, 9, 23}, // Week 11
+  {19, 18, 12, 5.5, 11, 23} // Week 12
 };
 
   for (int i = 0; i < realWeeklyData.length; i++) {
@@ -50,19 +50,17 @@ void draw() {
   background(255);
 
   if (frameCount <= totalWeeks) {
-    // Анимация гистограммы
+    
     int weekIndex = frameCount - 1;
     drawHistogram(weekIndex);
   } else {
-    // Сводная информация
+    
     drawSummary();
   }
 }
 
-// Генерация данных
 
 
-// Индекс месяца по индексу недели
 int getMonthIndex(int weekIndex) {
   int weekCounter = 0;
   for (int i = 0; i < months.length; i++) {
@@ -74,7 +72,7 @@ int getMonthIndex(int weekIndex) {
   return 0;
 }
 
-// Рисование гистограммы
+
 void drawHistogram(int weekIndex) {
   int weekNumber = weekIndex + 1;
   int monthIndex = getMonthIndex(weekIndex);
@@ -87,7 +85,7 @@ void drawHistogram(int weekIndex) {
   text(date, width / 2, 70);
 
   float barWidth = width / (activities.length + 3);
-  float maxHours = 20; // Максимум часов в неделю на одну активность
+  float maxHours = 30; 
 
   for (int i = 0; i < activities.length; i++) {
     float barHeight = map(weeklyData[weekIndex][i], 0, maxHours, 0, height - 200);
@@ -102,11 +100,11 @@ void drawHistogram(int weekIndex) {
   }
 }
 
-// Рисование сводной информации
+
 void drawSummary() {
   background(255);
 
-  // Линейная диаграмма
+
   textSize(20);
   fill(0);
   textAlign(CENTER);
@@ -114,32 +112,31 @@ void drawSummary() {
 
   float maxHours = max(monthlyTotals);
   float graphHeight = 300;
-  float graphWidth = 400; // Компактная диаграмма
+  float graphWidth = 400; 
   float xStart = 100;
   float yStart = height - 250;
 
-  // Оси
-  stroke(0);
-  line(xStart, yStart, xStart, yStart - graphHeight); // Вертикальная ось
-  line(xStart, yStart, xStart + graphWidth, yStart); // Горизонтальная ось
 
-  // Линии и точки
+  stroke(0);
+  line(xStart, yStart, xStart, yStart - graphHeight); 
+  line(xStart, yStart, xStart + graphWidth, yStart); 
+
+
   stroke(50, 150, 250);
   for (int i = 0; i < months.length; i++) {
     float x = map(i, 0, months.length - 1, xStart, xStart + graphWidth);
     float y = map(monthlyTotals[i], 0, maxHours, yStart, yStart - graphHeight);
 
-    // Точки
+
     fill(50, 150, 250);
     ellipse(x, y+30, 8, 8);
 
-    // Значения
     fill(0);
     textAlign(CENTER);
     text(months[i], x, yStart + 20);
     text(nf(monthlyTotals[i], 1, 1) + "h", x, y - 10);
 
-    // Соединяющие линии
+ 
     if (i > 0) {
       float prevX = map(i - 1, 0, months.length - 1, xStart, xStart + graphWidth);
       float prevY = map(monthlyTotals[i - 1], 0, maxHours, yStart, yStart - graphHeight);
@@ -147,28 +144,23 @@ void drawSummary() {
     }
   }
 
-  // Список активностей с увеличением шрифта и межстрочным расстоянием
+  
   fill(0);
   textAlign(LEFT);
-  textSize(25); // Увеличиваем размер шрифта для списка
-  float textHeight = textAscent() + textDescent(); // Определяем высоту строки
-  float lineSpacing = textHeight * 1.5; // Устанавливаем расстояние между строками
+  textSize(25); 
+  float textHeight = textAscent() + textDescent(); 
+  float lineSpacing = textHeight * 1.5; 
 
   text("Total Time by Activity:", width - 450, height - 500);
 
   for (int i = 0; i < activities.length; i++) {
-    float yPosition = height - 480 + i * lineSpacing; // Используем custom spacing
+    float yPosition = height - 480 + i * lineSpacing; 
     text("\n" +activities[i] + ": " + nf(totalPerActivity[i], 1, 1) + "h", width - 450, yPosition);
   }
 }
 
-  // Список активностей
 
 
-
-  
-
-// Суммирование
 float sum(float[] arr) {
   float total = 0;
   for (float val : arr) {
